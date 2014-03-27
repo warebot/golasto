@@ -6,7 +6,7 @@ import (
 
 
 type FilteredQuery struct{
-    Query interface{} `json:"query"`
+    Qry interface{} `json:"query"`
     // Filter can be
     // bool
     // and
@@ -15,9 +15,6 @@ type FilteredQuery struct{
     Filter map[string]interface{} `json:"filter"`
 }
 
-type RangeFilter struct{
-    Range map[string]Range `json:"range"`
-}
 
 type Range struct{
     Field string `json:"-"`
@@ -34,6 +31,11 @@ func (r *Range) MarshalJSON() ([]byte, error){
 
 
 
+func FilteredQueryBuilder() *FilteredQuery{
+    return new(FilteredQuery)
+}
+
+
 func (fq *FilteredQuery) MarshalJSON() ([]byte, error){
     // If filter is empty initialize to 
     if fq.Filter == nil{
@@ -46,7 +48,12 @@ func (fq *FilteredQuery) MarshalJSON() ([]byte, error){
 }
 
 
-func (fq *FilteredQuery) And (f interface{}){
+func (fq *FilteredQuery) Query (q interface{}) *FilteredQuery{
+    fq.Qry = q
+    return fq
+}
+
+func (fq *FilteredQuery) And (f interface{}) *FilteredQuery{
     if fq.Filter == nil{
         fq.Filter = make(map[string]interface{})
     }
@@ -55,6 +62,7 @@ func (fq *FilteredQuery) And (f interface{}){
         fq.Filter["and"] = andFilter
     }
     fq.Filter["and"] = append(fq.Filter["and"].([]interface{}), f)
+    return fq
 }
 
 func (fq *FilteredQuery) Range(from interface{}, to interface{}){

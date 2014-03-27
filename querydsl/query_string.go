@@ -5,15 +5,24 @@ import (
 )
 
 type QueryString struct{
-    Query string `json:"query"`
+    Qry string `json:"query"`
+}
+
+
+func QueryStringBuilder() *QueryString{
+    return new(QueryString)
+
 }
 
 
 func (qs *QueryString) MarshalJSON() ([]byte, error){
     return json.Marshal(map[string]interface{}{
            "query_string": *qs})
-
-
 }
 
+
+func (qs *QueryString) Query(query string) *QueryString{
+    qs.Qry = query
+    return qs
+}
 

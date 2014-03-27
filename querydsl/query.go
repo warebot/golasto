@@ -13,10 +13,6 @@ func (q *Query) MarshalJSON() ([]byte, error){
 }
 
 
-func (q *Query) QueryString(){
-}
-
-
 
 type Term struct {
     Field string
