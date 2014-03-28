@@ -5,7 +5,7 @@ import (
 )
 
 type HasParent struct{
-    Qry interface{} `json:"query"`
+    Query_ interface{} `json:"query"`
     ParentType string `json:"parent_type"`
 }
 
@@ -20,7 +20,7 @@ func (hp *HasParent) MarshalJSON() ([]byte, error){
 }
 
 func (hp *HasParent) Query(query interface{}) *HasParent{
-    hp.Qry = query
+    hp.Query_ = query
     return hp
 }
 

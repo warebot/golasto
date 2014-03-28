@@ -2,6 +2,7 @@ package querydsl
 
 import ("testing"
         "encoding/json"
+        "fmt"
 )
 func TestFilteredQuery(t *testing.T){
 
@@ -23,13 +24,13 @@ func TestFilteredQuery(t *testing.T){
 
 func TestHasParentQuery(t *testing.T){
     queryTst := `{"has_parent":{"query":{"term":{"address":"paypal.com"}},"parent_type":"threat"}}`
-    termQuery := Term{"address", "paypal.com"}
-    var hasParentQuery = HasParentQueryBuilder().Parent("threat").Query(&termQuery)
+    var hasParentQuery = HasParentQueryBuilder().Parent("threat").Query(TermQuery().Field("address").Value("paypal.com"))
     j, err := json.Marshal(&hasParentQuery)
     if err != nil {
         t.Fatalf(err.Error())
     }
     if queryTst != string(j){
+        fmt.Println(string(j))
         t.Fatalf("NOT EQUAL")
     }
 
@@ -45,8 +46,16 @@ func TestQueryString(t *testing.T){
     if queryTst != string(j){
         t.Fatalf("NOT EQUAL")
     }
+}
 
-
+func TestQuery(t *testing.T){
+    var query = QueryBuilder().Size(10).From(200)
+    query.SetQuery(&Term{"address", "paypal"})
+    j, err := json.Marshal(query)
+    if err != nil {
+        t.Fatalf(err.Error())
+    }
+    fmt.Println(string(j))
 
 }
 
