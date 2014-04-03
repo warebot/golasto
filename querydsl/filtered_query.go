@@ -29,7 +29,16 @@ func (r *Range) MarshalJSON() ([]byte, error){
         })
 }
 
+type NotFilter struct {
+    Filter interface{}
+}
 
+func (nf *NotFilter) MarshalJSON() ([]byte, error){
+    return json.Marshal(map[string]interface{}{
+           "not": nf.Filter})
+
+
+}
 
 func FilteredQueryBuilder() *FilteredQuery{
     return new(FilteredQuery)

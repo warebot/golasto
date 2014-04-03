@@ -48,6 +48,16 @@ func TestQueryString(t *testing.T){
     }
 }
 
+func TestNotFilter (t *testing.T){
+    filter := &NotFilter{}
+    filter.Filter = TermQuery().Field("address").Value("paypal.com")
+    j, err := json.Marshal(filter)
+    if err != nil {
+        t.Fatalf(err.Error())
+    }
+    fmt.Println(string(j))
+}
+
 func TestQuery(t *testing.T){
     var query = QueryBuilder().Size(10).From(200)
     query.SetQuery(&Term{"address", "paypal"})
