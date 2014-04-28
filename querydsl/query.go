@@ -61,5 +61,27 @@ func (t *Term) MarshalJSON() ([]byte, error){
     return json.Marshal(map[string]interface{}{"term": term})
 }
 
+type WildCard struct {
+    Field_ string
+    Value_ string
+}
 
+func WildCardBuilder() *WildCard{
+    return new(WildCard)
+}
 
+func (w *WildCard) Field(field string) *WildCard{
+    w.Field_ = field
+    return w
+}
+
+func (w *WildCard) Value(value string) *WildCard{
+    w.Value_ = value
+    return w
+}
+
+func (w *WildCard) MarshalJSON() ([]byte, error){
+    wildCard := make(map[string]interface{})
+    wildCard[w.Field_] = w.Value_
+    return json.Marshal(map[string]interface{}{"wildcard": wildCard})
+}

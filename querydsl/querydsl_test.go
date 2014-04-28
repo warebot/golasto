@@ -69,3 +69,13 @@ func TestQuery(t *testing.T){
 
 }
 
+
+func TestWildCardQuery(t *testing.T){
+    wildCard := WildCardBuilder().Field("address").Value("something")
+    j, err := json.Marshal(wildCard)
+    if err != nil {
+        t.Fatalf(err.Error())
+    }
+    fmt.Println(string(j))
+}
+
